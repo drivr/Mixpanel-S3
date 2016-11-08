@@ -60,7 +60,7 @@ class Mixpanel(object):
                 params[i] = (param[0], json.dumps(param[1]),)
 
         return urllib.urlencode(
-            [(k, isinstance(v, unicode) and v.encode('utf-8') or v) for k, v in params]
+            [(k, isinstance(v, str) and v.encode('utf-8') or v) for k, v in params]
         )
 
     def hash_args(self, args, secret=None):
@@ -73,14 +73,14 @@ class Mixpanel(object):
 
         args_joined = ''
         for a in sorted(args.keys()):
-            if isinstance(a, unicode):
+            if isinstance(a, str):
                 args_joined += a.encode('utf-8')
             else:
                 args_joined += str(a)
 
             args_joined += '='
 
-            if isinstance(args[a], unicode):
+            if isinstance(args[a], str):
                 args_joined += args[a].encode('utf-8')
             else:
                 args_joined += str(args[a])

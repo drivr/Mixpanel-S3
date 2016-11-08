@@ -11,7 +11,7 @@ import boto3
 
 class Runner:
     def __init__(self):
-        self.s3 = boto3.resource('s3')
+        self.s3 = boto3.client('s3')
 
 
     def get_date(self, date_delta):
@@ -64,8 +64,6 @@ class Runner:
 
     def run_command(self, cmd):
         print("Running: %s" % " ".join(cmd))
-        if self.args.dry:
-            return
         exit_code = subprocess.call(cmd)
         if exit_code != 0:
             raise Exception("Error: Exit code %d found for command: %s" % (exit_code, cmd))
@@ -81,7 +79,12 @@ class Runner:
             s3_filename = "%s.gz" % s3_filename
         print("Writing to s3")
         # self.put_s3_file(tmp_file, s3_filename)
-        self.put_s3_file_boto(tmp_file, s3_filename)
+
+        s3_filename_split = s3_filename.split('/')
+        bucket_name = s3_filename_split[0]
+        key_name = s3_filename_split[1] + '/' + s3_filename_split[2]
+
+        self.put_s3_file_boto(tmp_file, bucket_name, key_name)
         self.rm(tmp_file)
 
     def put_s3_string(self, string, s3_filename, zip=False):
@@ -95,8 +98,8 @@ class Runner:
         else:
           self.run_command(("s3cmd put -r %s s3://%s" % (filename, bucket)).split())
 
-    def put_s3_file_boto(self, filename, bucket):
-        self.s3.upload_file(filename, bucket, "mp_tests")
+    def put_s3_file_boto(self, tmp_file, bucket_name, key_name):
+        self.s3.upload_file(tmp_file, bucket_name, key_name)
 
     def date_iter(self, start_date, end_date):
         while start_date <= end_date:

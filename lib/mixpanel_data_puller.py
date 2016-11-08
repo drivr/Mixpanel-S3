@@ -1,6 +1,6 @@
 import sys
 from datetime import datetime
-import mixpanel_api
+import lib.mixpanel_api_new2 as mixpanel_api
 
 DATE_FORMAT = '%Y-%m-%d'
 
@@ -21,8 +21,8 @@ def stringify_date(d):
     return d.strftime(DATE_FORMAT)
 
 def pull(start_date, end_date, api_key, api_secret):
-    api = mixpanel_api.Mixpanel(api_key, api_secret, data=True)
-    data_iter = api.request(['export'], {
+    api = mixpanel_api.Mixpanel(api_key, api_secret)
+    data_iter = api.request('export', {
         'from_date': start_date,
         'to_date': end_date,
     })

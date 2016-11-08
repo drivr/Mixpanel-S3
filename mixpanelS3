@@ -63,7 +63,7 @@ class Runner:
         return gz_filname
 
     def run_command(self, cmd):
-        print "Running: %s" % " ".join(cmd)
+        print("Running: %s" % " ".join(cmd))
         if self.args.dry:
             return
         exit_code = subprocess.call(cmd)
@@ -79,7 +79,7 @@ class Runner:
         if zip:
             tmp_file = self.gzip(tmp_file)
             s3_filename = "%s.gz" % s3_filename
-        print "Writing to s3"
+        print("Writing to s3")
         # self.put_s3_file(tmp_file, s3_filename)
         self.put_s3_file_boto(tmp_file, s3_filename)
         self.rm(tmp_file)
@@ -117,7 +117,7 @@ class Runner:
         start_date, end_date = self.args.startdate, self.args.enddate
         for date in self.date_iter(start_date, end_date):
             date = puller.stringify_date(date)
-            print "Pulling data for %s" % date
+            print("Pulling data for %s" % date)
             data_iter = self.pull_data(date)
             s3_output_file = "%s%s" % (self.output_bucket, date)
             self.put_s3_string_iter(data_iter, s3_output_file, zip=True)

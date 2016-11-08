@@ -9,7 +9,7 @@ def extract_dates(start_date, end_date):
         try:
             return parse_date(date_str)
         except:
-            print "Invalid date format: %s, valid date format should look like: %s" % (date_str, DATE_FORMAT)
+            print("Invalid date format: %s, valid date format should look like: %s") % (date_str, DATE_FORMAT)
             raise
 
     return [validate(d) for d in [start_date, end_date]]
@@ -43,7 +43,7 @@ def run(argv):
     api_key, api_secret = argv[i:i+2]
 
     for d in pull(start_date, end_date, api_key, api_secret):
-        print d,
+        print(d),
 
 if __name__ == "__main__":
     run(sys.argv[1:])

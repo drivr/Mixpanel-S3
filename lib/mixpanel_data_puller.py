@@ -1,6 +1,6 @@
 import sys
 from datetime import datetime
-import lib.mixpanel_api_new2 as mixpanel_api
+import lib.mixpanel_api as mixpanel_api
 
 DATE_FORMAT = '%Y-%m-%d'
 

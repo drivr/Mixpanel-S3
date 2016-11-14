@@ -70,7 +70,7 @@ class Runner:
 
     def put_s3_string_iter(self, string_iter, s3_filename, zip=False):
         tmp_file = "%s/%s.txt" % (self.args.tmpdir, str(uuid.uuid1()))
-        f = open(tmp_file, 'w')
+        f = open(tmp_file, 'w', encoding='utf-8')
         for string in string_iter:
             f.write(string)
         f.close()

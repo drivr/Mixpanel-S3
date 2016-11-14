@@ -34,7 +34,7 @@ class Mixpanel(object):
         """
         request = self.raw_request(self.ENDPOINT, method_name, params, response_format)
         data = request.read()
-        return data#.decode('utf-8')
+        return data.decode('utf-8')
 
     def raw_request(self, base_url, method_name, params, response_format):
         """
